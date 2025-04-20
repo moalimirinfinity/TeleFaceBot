@@ -100,6 +100,6 @@ The bot will load the configuration, initialize the models, load the index files
 
 ## Credits
 
-*   Built upon the foundation provided by [AlisaLC's repository](https://github.com/AlisaLC)
+*   Built upon the foundation provided by [AlisaLC's repository]([https://github.com/AlisaLC](https://github.com/AlisaLC/FaceGalleryTelegramBot))
 *   Uses `facenet-pytorch` for MTCNN and FaceNet implementations.
 *   Uses `pyrogram` for Telegram API interaction.
