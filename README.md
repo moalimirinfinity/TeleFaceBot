@@ -1,4 +1,4 @@
-# FaceGalleryTelegramBot (Refactored)
+# TeleFaceBot
 
 A Telegram bot designed to find faces in photos similar to a provided photo, using pre-indexed embeddings from other Telegram messages (e.g., from a channel or group). It leverages `facenet-pytorch` for face detection and embedding generation and `pyrogram` for interacting with the Telegram API.
 
