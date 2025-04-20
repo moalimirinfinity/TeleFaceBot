@@ -100,6 +100,6 @@ The bot will load the configuration, initialize the models, load the index files
 
 ## Credits
 
-*   Original idea based on work by [Mahdi Samiee](https://github.com/mmsamiei) and [Iman Mohammadi](https://github.com/imanm02).
+*   Built upon the foundation provided by [AlisaLC's repository](https://github.com/AlisaLC)
 *   Uses `facenet-pytorch` for MTCNN and FaceNet implementations.
 *   Uses `pyrogram` for Telegram API interaction.
