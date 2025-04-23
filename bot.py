@@ -2,7 +2,6 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import pickle
 import os
-import json
 import numpy as np # Keep numpy import here for random
 from dotenv import load_dotenv
 import logging # Import logging
@@ -40,7 +39,7 @@ if PROXY_STR:
     try:
         proxy = json.loads(PROXY_STR) # Expecting a JSON dictionary string
     except json.JSONDecodeError:
-        print(f"Warning: Could not parse PROXY environment variable: {PROXY_STR}")
+        logger.warning(f"Warning: Could not parse PROXY environment variable: {PROXY_STR}")
         proxy = None
 
 # Check if required variables are set
@@ -132,20 +131,25 @@ async def continue_find(client, callback_query):
 
         # Update button based on whether more results exist
         if end < len(similar_images_list):
-            button_text = TEXT_CONFIG["TEXT_VIEW_MORE_BUTTON"].format(current_count=end, next_count=end+10)
+            page_size = 10  # Define page size explicitly
+            next_end = min(end + page_size, len(similar_images_list))
+            button_text = TEXT_CONFIG["TEXT_VIEW_MORE_BUTTON"].format(current_count=end, next_count=next_end)
             await callback_query.message.edit_text(text=TEXT_CONFIG["TEXT_CLICK_BELOW_MORE"],
                                            reply_markup=InlineKeyboardMarkup([[
                                                     InlineKeyboardButton(button_text,
-                                                                         callback_data=f'{key}|{end+10}')
+                                                                         callback_data=f'{key}|{next_end}') # Use next_end here too
                                            ]]))
         else:
             final_text = TEXT_CONFIG["TEXT_SHOWING_SIMILAR"].format(count=len(similar_images_list))
             await callback_query.message.edit_text(text=final_text)
             logger.info(f"Finished showing all {len(similar_images_list)} images for key {key}")
-            # Optional cleanup
-            # if key in message_embeddings:
-            #     del message_embeddings[key]
-            #     logger.info(f"Cleaned up embeddings for key {key}")
+            # Cleanup
+            if key in message_embeddings:
+                del message_embeddings[key]
+                logger.info(f"Cleaned up embeddings for key {key}")
+            if key in media_group_locks:
+                del media_group_locks[key]
+                logger.info(f"Cleaned up media group lock for key {key}")
     
     # --- Except block, correctly indented, catching errors from the try block ---          
     except Exception as e:
@@ -181,7 +185,8 @@ async def start_find(client, message):
         logger.info(f"{log_prefix} Detected {len(embeddings)} face(s) in {download_path}")
         detected_embeddings = [emb for emb in embeddings]
 
-        key = int(np.random.randint(1_000_000_000)) if media_group_id is None else int(media_group_id)
+        # Use message_id for single photos, media_group_id for groups
+        key = message_id if media_group_id is None else int(media_group_id)
 
         # --- Lock acquisition for media groups --- 
         send_button = False

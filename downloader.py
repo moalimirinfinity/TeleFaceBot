@@ -29,10 +29,16 @@ OUTPUT_DIR = os.getenv("DOWNLOADER_OUTPUT_DIR", "data") # Default to "data"
 proxy = None
 if PROXY_STR:
     try:
-        proxy = json.loads(PROXY_STR)
+        parsed_proxy = json.loads(PROXY_STR)
+        # Validate required keys for Pyrogram proxy
+        if all(key in parsed_proxy for key in ['scheme', 'hostname', 'port']):
+            proxy = parsed_proxy
+            logger.info(f"Using proxy: {proxy['scheme']}://{proxy['hostname']}:{proxy['port']}")
+        else:
+            if parsed_proxy: # Only warn if it wasn't an empty string that resulted in {} or null
+                 logger.warning(f"Parsed PROXY dict is missing required keys ('scheme', 'hostname', 'port'): {parsed_proxy}. Ignoring proxy.")
     except json.JSONDecodeError:
-        logger.warning(f"Could not parse PROXY environment variable: {PROXY_STR}")
-        proxy = None
+        logger.warning(f"Could not parse PROXY environment variable: {PROXY_STR}. Ignoring proxy.")
 
 # Validate required variables
 if not all([API_ID, API_HASH, TARGET_CHAT_ID_STR]):
