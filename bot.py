@@ -2,7 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import pickle
 import os
-import json # Import json for proxy parsing
+import json # Re-add json import for proxy parsing
 import numpy as np # Keep numpy import here for random
 from dotenv import load_dotenv
 import logging # Import logging

@@ -1,21 +1,23 @@
-# Core Telegram library
+# Requirements for TeleFaceBot
+
+# Core Telegram interaction
 pyrogram[tgcrypto,Pillow]==2.0.106
 
-# Environment variable management
-python-dotenv==1.0.1
-
-# Numerical operations
-numpy==1.26.4
-
-# Machine Learning (check PyTorch website for specific CUDA/CPU versions if these cause issues)
-torch==2.1.0
-torchvision==0.16.0
-
-# Face detection and recognition
+# Machine Learning - Face Detection & Embeddings
+# Note: Ensure torch/torchvision versions are compatible with your system (CPU/GPU/CUDA)
+# Check https://pytorch.org/get-started/locally/
+torch==2.2.2
+torchvision==0.17.2
 facenet-pytorch==2.5.3
 
-# Image processing
+# Image processing dependency for facenet & indexer
 opencv-python==4.9.0.80
 
-# Progress bar for indexer (often less critical to pin, but good practice)
-tqdm==4.66.1 
+# Environment variable loading
+python-dotenv==1.0.1
+
+# Numerical operations (used by facenet/torch/processing)
+numpy==1.26.4
+
+# Progress bar for indexer (optional but good for user feedback)
+tqdm==4.66.4 
