@@ -1,21 +1,21 @@
 # Core Telegram library
-pyrogram[tgcrypto,Pillow]>=2.0.0
+pyrogram[tgcrypto,Pillow]==2.0.106
 
 # Environment variable management
-python-dotenv>=1.0.0
+python-dotenv==1.0.1
 
 # Numerical operations
-numpy>=1.20.0
+numpy==1.26.4
 
-# Machine Learning (check PyTorch website for specific CUDA/CPU versions)
-torch>=1.8.0
-torchvision>=0.9.0
+# Machine Learning (check PyTorch website for specific CUDA/CPU versions if these cause issues)
+torch==2.1.0
+torchvision==0.16.0
 
 # Face detection and recognition
-facenet-pytorch>=2.5.0
+facenet-pytorch==2.5.3
 
 # Image processing
-opencv-python>=4.5.0
+opencv-python==4.9.0.80
 
-# Progress bar for indexer
-tqdm>=4.60.0 
+# Progress bar for indexer (often less critical to pin, but good practice)
+tqdm==4.66.1 
